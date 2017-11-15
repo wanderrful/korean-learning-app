@@ -1,9 +1,42 @@
+/* Current iteration */
+body {
+  background-color: #222;
+}
+
+.main {
+  color: #222;
+
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.query {
+  background-color: #EEE;
+  color: #222;
+  font-size: 4em;
+  width: 10em;
+  padding: 1em;
+  margin: 1em auto;
+}
+.response {
+  background-color: #EEE;
+  color: #222;
+  font-size: 1em;
+  width: 10em;
+  padding: 1em;
+  margin: 1em auto;
+}
+
+
+
+/* Old stuff */
 .App {
   text-align: center;
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
+  animation: App-logo-spin infinite 5s linear;
   height: 80px;
 }
 

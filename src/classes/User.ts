@@ -1,5 +1,5 @@
 import * as Structs from "../utils/structs";
-import ReviewQueue from "./reviewqueue";
+import ReviewQueue from "./ReviewQueue";
 
 
 
