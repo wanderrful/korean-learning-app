@@ -11,6 +11,9 @@ body {
   flex-direction: column;
   justify-content: center;
 }
+.practice-container {
+  background-color: rgb(68, 255, 146);
+}
 .query {
   background-color: #EEE;
   color: #222;
