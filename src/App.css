@@ -20,9 +20,6 @@
 .Response1_correct {
   animation: Correct-Answer 1 0.2s linear;
 }
-.Response1_normal::before {
-  content: "✔️";
-}
 .Response1_wrong {
   animation: Wrong-Answer 1 0.2s linear;
 }
