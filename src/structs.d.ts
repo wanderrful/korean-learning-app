@@ -3,6 +3,7 @@ interface Parent_S {
     query: string,
     answer: string,
     Response1: string,
+    currentQuestionID: number,
 }
 interface Parent_P {
     challenges: Array<Challenge>,

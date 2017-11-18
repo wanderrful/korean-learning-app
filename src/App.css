@@ -18,10 +18,21 @@
   background-color: white;
 }
 .Response1_correct {
-  animation: Correct-Answer 1 0.1s linear;
+  animation: Correct-Answer 1 0.2s linear;
+}
+.Response1_normal::before {
+  content: "✔️";
 }
 .Response1_wrong {
-  animation: Wrong-Answer 1 0.1s linear;
+  animation: Wrong-Answer 1 0.2s linear;
+}
+.checkmark-animation {
+  font-size: 5em;
+  font-weight: 900;
+  width: 100px;
+  margin: 0 auto;
+  color: green;
+  animation: Checkmark-Spin infinite 1s linear;
 }
 
 
@@ -35,6 +46,10 @@
   0% { background-color: white; }
   20% { background-color: tomato; }
   100% { background-color: white; }
+}
+@keyframes Checkmark-Spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 

@@ -12,6 +12,10 @@ class App extends React.Component<object,object> {
     {
       query: "닭고기",
       answer: "chicken",
+    },
+    {
+      query: "연필",
+      answer: "pencil",
     }
   ];
 
@@ -34,6 +38,7 @@ class Parent_C extends React.Component<Parent_P,Parent_S> {
       query: "비밀",
       answer: "secret",
       Response1: "Response1_normal",
+      currentQuestionID: 0,
     };
     this.onUpdateChildText = this.onUpdateChildText.bind(this);
     this.onEvaluateResponse = this.onEvaluateResponse.bind(this);
@@ -47,30 +52,56 @@ class Parent_C extends React.Component<Parent_P,Parent_S> {
   }
   onEvaluateResponse() {
     let response: string = this.state.childText;
-    if (response.toLowerCase() === this.state.answer.toLowerCase()) {
-      this.setState({
-        ... this.state,
-        Response1: "Response1_correct",
-      });
+    if (response.toLowerCase() === this.props.challenges[this.state.currentQuestionID].answer.toLowerCase()) {
+      if (!this.bChallengesCompleted()) {
+        this.setState({
+          ... this.state,
+          childText: "",
+          Response1: "Response1_correct",
+          currentQuestionID: this.state.currentQuestionID + 1,
+        });
+      }
     } else {
       this.setState({
         ... this.state,
+        childText: "",
         Response1: "Response1_wrong",
       })
     }
   }
+  bChallengesCompleted(): boolean {
+    return (this.state.currentQuestionID === this.props.challenges.length);
+  }
   render() {
-    return (
-      <div className="Parent_C">
-        <Child_C 
-          query={this.state.query}
-          content={this.state.childText}
-          Response1={this.state.Response1}
-          onUpdateText={this.onUpdateChildText}
-          onSubmitText={this.onEvaluateResponse}
-        />
-      </div>
-    );
+    if (this.bChallengesCompleted()) {
+      return (
+        <div className="Parent_C">
+          <p className="checkmark-animation">
+            ✔️ 
+          </p>
+          <p>
+            All questions have been answered correctly!
+          </p>
+        </div>
+      );
+    } else {
+      return (
+        <div className="Parent_C">
+          <fieldset className="Child_C">
+            <legend>
+              Question {this.state.currentQuestionID + 1} of {this.props.challenges.length}
+            </legend>
+            <Child_C 
+              query={this.props.challenges[this.state.currentQuestionID].query}
+              content={this.state.childText}
+              Response1={this.state.Response1}
+              onUpdateText={this.onUpdateChildText}
+              onSubmitText={this.onEvaluateResponse}
+            />
+          </fieldset>
+        </div>
+      );
+    }
   }
 }
 
@@ -96,11 +127,7 @@ class Child_C extends React.Component<Child_P,object> {
 
   render() {
     return(
-      <div className="Child_C">
-        <fieldset>
-          <legend>
-            Child_C
-          </legend>
+      <div className="">
           <p className="Query_C">
             {this.props.query}
           </p>
@@ -112,7 +139,6 @@ class Child_C extends React.Component<Child_P,object> {
             onChange={this.onChange_Response1}
             onKeyDown={this.onEvent_Response1}
           />
-        </fieldset>
       </div>
     );
   }
