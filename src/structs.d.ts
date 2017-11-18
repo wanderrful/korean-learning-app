@@ -2,6 +2,7 @@ interface Parent_S {
     childText: string,
     query: string,
     answer: string,
+    Response1: string,
 }
 interface Parent_P {
     challenges: Array<Challenge>,
@@ -10,6 +11,7 @@ interface Parent_P {
 interface Child_P {
     query: string,
     content: string,
+    Response1: string,
     onUpdateText(newText: string): void,
     onSubmitText(): void,
 }

@@ -14,6 +14,15 @@
   font-weight: 900;
   margin: 0;
 }
+.Response1_normal {
+  background-color: white;
+}
+.Response1_correct {
+  background-color: greenyellow;
+}
+.Response1_wrong {
+  background-color: tomato;
+}
 
 
 /* OLD */

@@ -37,6 +37,7 @@ class Parent_C extends React.Component<Parent_P,Parent_S> {
       childText: "",
       query: "비밀",
       answer: "secret",
+      Response1: "Response1_normal",
     };
     this.onUpdateChildText = this.onUpdateChildText.bind(this);
     this.onEvaluateResponse = this.onEvaluateResponse.bind(this);
@@ -45,14 +46,23 @@ class Parent_C extends React.Component<Parent_P,Parent_S> {
     this.setState({
       ... this.state,
       childText: newText,
+      Response1: "Response1_normal",
     });
   }
   onEvaluateResponse() {
     let response: string = this.state.childText;
     if (response.toLowerCase() === this.state.answer.toLowerCase()) {
       console.log("> ANSWER IS CORRECT!");
+      this.setState({
+        ... this.state,
+        Response1: "Response1_correct",
+      });
     } else {
       console.log("> ANSWER IS WRONG");
+      this.setState({
+        ... this.state,
+        Response1: "Response1_wrong",
+      })
     }
   }
   render() {
@@ -61,6 +71,7 @@ class Parent_C extends React.Component<Parent_P,Parent_S> {
         <Child_C 
           query={this.state.query}
           content={this.state.childText}
+          Response1={this.state.Response1}
           onUpdateText={this.onUpdateChildText}
           onSubmitText={this.onEvaluateResponse}
         />
@@ -94,14 +105,14 @@ class Child_C extends React.Component<Child_P,object> {
       <div className="Child_C">
         <fieldset>
           <legend>
-            {this.currentQuestionID} of {this.props.totalQuestions}
+            Child_C
           </legend>
           <p className="Query_C">
             {this.props.query}
           </p>
           <input 
             type="text" 
-            className="Response1"
+            className={this.props.Response1}
             autoFocus={true}
             value={this.props.content}
             onChange={this.onChange_Response1}
