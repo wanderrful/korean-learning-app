@@ -3,26 +3,26 @@ import "./App.css";
 
 
 
-export interface Props {
-  query: string,
-  answer: string,
-};
-export interface AppState {
-  currentContext: number,         // identifies the current container that the app should be rendering
-};
-export interface PracticeState {
-  query: string,                  // the assigned query that we want to display
-  answer: string,                 // the correct answer we are expecting
-  response: string,               // the current text that the user has input into the text box
-};
 
 
 
-class App extends React.Component<object, AppState> {
+
+class App extends React.Component<object,object> {
+  challengeList: Array<Challenge> = [ // TODO: export this to a database!
+    {
+      query: "비밀",
+      answer: "secret",
+    },
+    {
+      query: "닭고기",
+      answer: "chicken",
+    }
+  ];
+
   render() {
     return (
-      <div className="main">
-        <PracticeContainer query="Query" answer="Answer" />
+      <div className="App">
+        <Parent_C challenges={this.challengeList}/>
       </div>
     );
   }
@@ -30,15 +30,40 @@ class App extends React.Component<object, AppState> {
 
 
 
-class PracticeContainer extends React.Component<Props, PracticeState> {
+class Parent_C extends React.Component<Parent_P,Parent_S> {
+  constructor(props: Parent_P) {
+    super(props);
+    this.state = {
+      childText: "",
+      query: "비밀",
+      answer: "secret",
+    };
+    this.onUpdateChildText = this.onUpdateChildText.bind(this);
+    this.onEvaluateResponse = this.onEvaluateResponse.bind(this);
+  }
+  onUpdateChildText(newText: string): void {
+    this.setState({
+      ... this.state,
+      childText: newText,
+    });
+  }
+  onEvaluateResponse() {
+    let response: string = this.state.childText;
+    if (response.toLowerCase() === this.state.answer.toLowerCase()) {
+      console.log("> ANSWER IS CORRECT!");
+    } else {
+      console.log("> ANSWER IS WRONG");
+    }
+  }
   render() {
-    const query = this.props.query;
-    const answer = this.props.answer;
-
     return (
-      <div className="practice-container">
-        <Query query={query} />
-        <Response answer={answer} />
+      <div className="Parent_C">
+        <Child_C 
+          query={this.state.query}
+          content={this.state.childText}
+          onUpdateText={this.onUpdateChildText}
+          onSubmitText={this.onEvaluateResponse}
+        />
       </div>
     );
   }
@@ -46,28 +71,43 @@ class PracticeContainer extends React.Component<Props, PracticeState> {
 
 
 
-class Query extends React.Component<{query: string}, object> {
-  render() {
-    const content: string = this.props.query;
+class Child_C extends React.Component<Child_P,object> {
+  currentQuestionID: number = 0;
 
-    return (
-      <div className="query">
-        {content}
-      </div>
-    );
+  constructor(props: Child_P) {
+    super(props);
+    this.onChange_Response1 = this.onChange_Response1.bind(this);
+    this.onEvent_Response1 = this.onEvent_Response1.bind(this);
+
   }
-}
+  onChange_Response1(e: React.ChangeEvent<HTMLInputElement>): void {
+    this.props.onUpdateText(e.target.value);
+  }
+  onEvent_Response1(e: React.KeyboardEvent<HTMLInputElement>): void {
+    if (e.key === "Enter") {
+      this.props.onSubmitText();
+    }
+  }
 
-
-
-class Response extends React.Component<{answer: string}, object> {
   render() {
-    //const answer: string = this.props.answer;
-
-    return (
-      <div className="response">
-        <input id="guess-content" type="text" />
-        <input id="guess-submit" type="submit" />
+    return(
+      <div className="Child_C">
+        <fieldset>
+          <legend>
+            {this.currentQuestionID} of {this.props.totalQuestions}
+          </legend>
+          <p className="Query_C">
+            {this.props.query}
+          </p>
+          <input 
+            type="text" 
+            className="Response1"
+            autoFocus={true}
+            value={this.props.content}
+            onChange={this.onChange_Response1}
+            onKeyDown={this.onEvent_Response1}
+          />
+        </fieldset>
       </div>
     );
   }

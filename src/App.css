@@ -1,45 +1,28 @@
-/* Current iteration */
-body {
-  background-color: #222;
-}
-
-.main {
-  background-color: #44f;
-
-  text-align: center;
+.Parent_C {
+  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.practice-container {
-  background-color: rgb(68, 255, 146);
+.Child_C {
+  margin: 0 auto;
+  padding: 20px;
+  width: 15em;
 }
-.query {
-  background-color: #EEE;
-  color: #222;
-  font-size: 4em;
-  width: 10em;
-  padding: 1em;
-  margin: 1em auto;
-}
-.response {
-  background-color: #EEE;
-  color: #222;
-  font-size: 1em;
-  width: 10em;
-  padding: 1em;
-  margin: 1em auto;
+.Query_C {
+  font-size: 2em;
+  font-weight: 900;
+  margin: 0;
 }
 
 
-
-/* Old stuff */
+/* OLD */
 .App {
   text-align: center;
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 5s linear;
+  animation: App-logo-spin infinite 20s linear;
   height: 80px;
 }
 
