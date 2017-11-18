@@ -18,11 +18,25 @@
   background-color: white;
 }
 .Response1_correct {
-  background-color: greenyellow;
+  animation: Correct-Answer 1 0.1s linear;
 }
 .Response1_wrong {
-  background-color: tomato;
+  animation: Wrong-Answer 1 0.1s linear;
 }
+
+
+
+@keyframes Correct-Answer {
+  0% { background-color: white; }
+  20% { background-color:greenyellow; }
+  100% { background-color: white; }
+}
+@keyframes Wrong-Answer {
+  0% { background-color: white; }
+  20% { background-color: tomato; }
+  100% { background-color: white; }
+}
+
 
 
 /* OLD */

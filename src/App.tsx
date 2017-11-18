@@ -3,10 +3,6 @@ import "./App.css";
 
 
 
-
-
-
-
 class App extends React.Component<object,object> {
   challengeList: Array<Challenge> = [ // TODO: export this to a database!
     {
@@ -52,13 +48,11 @@ class Parent_C extends React.Component<Parent_P,Parent_S> {
   onEvaluateResponse() {
     let response: string = this.state.childText;
     if (response.toLowerCase() === this.state.answer.toLowerCase()) {
-      console.log("> ANSWER IS CORRECT!");
       this.setState({
         ... this.state,
         Response1: "Response1_correct",
       });
     } else {
-      console.log("> ANSWER IS WRONG");
       this.setState({
         ... this.state,
         Response1: "Response1_wrong",
