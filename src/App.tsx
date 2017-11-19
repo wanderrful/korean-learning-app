@@ -4,7 +4,7 @@ import "./App.css";
 
 
 class App extends React.Component<object,object> {
-  challengeList: Array<Challenge> = [ // TODO: export this to a database!
+  challengeList: Array<Challenge> = [ // TODO: export this to a database and import here via props with Redux!
     {
       query: "비밀",
       answer: "secret",
@@ -35,9 +35,7 @@ class Parent_C extends React.Component<Parent_P,Parent_S> {
     super(props);
     this.state = {
       childText: "",
-      query: "비밀",
-      answer: "secret",
-      Response1: "Response1_normal",
+      Response1_className: "Response1_normal",
       currentQuestionID: 0,
     };
     this.onUpdateChildText = this.onUpdateChildText.bind(this);
@@ -47,17 +45,17 @@ class Parent_C extends React.Component<Parent_P,Parent_S> {
     this.setState({
       ... this.state,
       childText: newText,
-      Response1: "Response1_normal",
+      Response1_className: "Response1_normal",
     });
   }
   onEvaluateResponse() {
     let response: string = this.state.childText;
     if (response.toLowerCase() === this.props.challenges[this.state.currentQuestionID].answer.toLowerCase()) {
-      if (!this.bChallengesCompleted()) {
+      if (!this.bHasCompletedChallenges()) {
         this.setState({
           ... this.state,
           childText: "",
-          Response1: "Response1_correct",
+          Response1_className: "Response1_correct",
           currentQuestionID: this.state.currentQuestionID + 1,
         });
       }
@@ -65,15 +63,15 @@ class Parent_C extends React.Component<Parent_P,Parent_S> {
       this.setState({
         ... this.state,
         childText: "",
-        Response1: "Response1_wrong",
+        Response1_className: "Response1_wrong",
       })
     }
   }
-  bChallengesCompleted(): boolean {
+  bHasCompletedChallenges(): boolean {
     return (this.state.currentQuestionID === this.props.challenges.length);
   }
   render() {
-    if (this.bChallengesCompleted()) {
+    if (this.bHasCompletedChallenges()) {
       return (
         <div className="Parent_C">
           <p className="checkmark-animation">
@@ -94,7 +92,7 @@ class Parent_C extends React.Component<Parent_P,Parent_S> {
             <Child_C 
               query={this.props.challenges[this.state.currentQuestionID].query}
               content={this.state.childText}
-              Response1={this.state.Response1}
+              Response1_className={this.state.Response1_className}
               onUpdateText={this.onUpdateChildText}
               onSubmitText={this.onEvaluateResponse}
             />
@@ -108,8 +106,6 @@ class Parent_C extends React.Component<Parent_P,Parent_S> {
 
 
 class Child_C extends React.Component<Child_P,object> {
-  currentQuestionID: number = 0;
-
   constructor(props: Child_P) {
     super(props);
     this.onChange_Response1 = this.onChange_Response1.bind(this);
@@ -133,7 +129,7 @@ class Child_C extends React.Component<Child_P,object> {
           </p>
           <input 
             type="text" 
-            className={this.props.Response1}
+            className={this.props.Response1_className}
             autoFocus={true}
             value={this.props.content}
             onChange={this.onChange_Response1}

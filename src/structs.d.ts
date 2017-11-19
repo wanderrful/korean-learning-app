@@ -1,8 +1,6 @@
 interface Parent_S {
     childText: string,
-    query: string,
-    answer: string,
-    Response1: string,
+    Response1_className: string,
     currentQuestionID: number,
 }
 interface Parent_P {
@@ -12,7 +10,7 @@ interface Parent_P {
 interface Child_P {
     query: string,
     content: string,
-    Response1: string,
+    Response1_className: string,
     onUpdateText(newText: string): void,
     onSubmitText(): void,
 }
