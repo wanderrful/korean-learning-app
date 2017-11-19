@@ -2,6 +2,8 @@
 
 This is a proof of concept for a TypeScript and React-based web app that tests your Korean vocabulary knowledge through a sequence of challenge prompts.
 
+Here's a simple video demosntration:  https://www.youtube.com/watch?v=sHXQMWSky9U
+
 
 
 ## How to Test
