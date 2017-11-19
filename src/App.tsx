@@ -50,7 +50,8 @@ class Parent_C extends React.Component<Parent_P,Parent_S> {
   }
   onEvaluateResponse() {
     let response: string = this.state.childText;
-    if (response.toLowerCase() === this.props.challenges[this.state.currentQuestionID].answer.toLowerCase()) {
+    let actualAnswer: string = this.props.challenges[this.state.currentQuestionID].answer;
+    if (response.toLowerCase() === actualAnswer.toLowerCase()) {
       if (!this.bHasCompletedChallenges()) {
         this.setState({
           ... this.state,
