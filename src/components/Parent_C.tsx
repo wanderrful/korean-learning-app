@@ -1,7 +1,8 @@
 import * as React from "react";
+import Child_C from "./Child_C";
 import "../styles/App.css";
 
-class Parent_C extends React.Component<Parent_P,Parent_S> {
+class Parent_C extends React.Component<Parent_P, Parent_S> {
     constructor(props: Parent_P) {
         super(props);
         this.state = {
@@ -36,7 +37,7 @@ class Parent_C extends React.Component<Parent_P,Parent_S> {
             ... this.state,
             childText: "",
             Response1_className: "Response1_wrong",
-            })
+            });
         }
     }
     bHasCompletedChallenges(): boolean {
