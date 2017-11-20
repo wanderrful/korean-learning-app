@@ -1,3 +1,7 @@
+interface App_P {
+    challenges: Array<Challenge>;
+}
+
 interface Parent_S {
     childText: string,
     Response1_className: string,

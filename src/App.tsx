@@ -1,8 +1,9 @@
 import * as React from "react";
-import "./App.css";
+import "./styles/App.css";
 
 
 
+//TODO: use App_P for props after connecting this component to the Redux store!
 class App extends React.Component<object,object> {
   challengeList: Array<Challenge> = [ // TODO: export this to a database and import here via props with Redux!
     {
@@ -18,6 +19,10 @@ class App extends React.Component<object,object> {
       answer: "pencil",
     }
   ];
+
+  componentWillMount() {
+    //TODO: dispatch the async FETCH action to the reducer here (I think?)
+  }
 
   render() {
     return (
