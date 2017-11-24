@@ -10,6 +10,8 @@ Here's a simple video demosntration:  https://www.youtube.com/watch?v=sHXQMWSky9
 
 To test this web app, simply clone the master branch of this repo to your hard drive and run _npm start_.  It will automatically open the web app at _localhost:3000_ for you.  Enjoy!
 
+Use the _DATABASE\_URL_ environment variable for your PostgreSQL database server!
+
 
 
 ## How It Works

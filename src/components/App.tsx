@@ -5,7 +5,7 @@ import "../styles/App.css";
 
 
 // TODO: use App_P for props after connecting this component to the Redux store!
-class App extends React.Component<object, object> {
+class App extends React.Component<App_P, object> {
   challengeList: Array<Challenge> = [ // TODO: export this to a database and import here via props with Redux!
     {
       query: "비밀",
