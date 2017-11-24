@@ -7,17 +7,24 @@ import "./styles/index.css";
 
 
 
-const pgClient = pg.Client({});
+const pgClient = new pg.Client({
+  connectionString: process.env.DATABASE_URL
+});
+
+const DB_TABLE_NAME: string = "db_wordList";
+const DB_CREATE_TABLE: string = `CREATE TABLE IF NOT EXIST ${DB_TABLE_NAME} (query string, answer string)`;
+const DB_RETRIEVE_WORDS: string = `SELECT * FROM ${DB_TABLE_NAME}`;
+
+pgClient.query(DB_CREATE_TABLE);
+pgClient.query(DB_RETRIEVE_WORDS, fn_initApp);
 
 
 
-pgClient.query("", fn_initApp);
+function fn_initApp(err: Error, result: pg.QueryResult): void {
+  const wordList: Array<Challenge> = result.rows;
 
-
-
-function fn_initApp(): void {
   ReactDOM.render(
-    <App />,
+    <App challenges={wordList} />,
     document.getElementById("root") as HTMLElement
   );
 }
