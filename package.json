@@ -3,10 +3,6 @@
   "version": "0.2.0",
   "private": true,
   "dependencies": {
-    "@types/jest": "^20.0.2",
-    "@types/node": "^8.0.7",
-    "@types/react": "^15.0.34",
-    "@types/react-dom": "^15.5.1",
     "pg": "^7.4.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
@@ -19,6 +15,10 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
-    "@types/pg": "^7.4.0"
+    "@types/pg": "^7.4.0",
+    "@types/jest": "^20.0.2",
+    "@types/node": "^8.0.7",
+    "@types/react": "^15.0.34",
+    "@types/react-dom": "^15.5.1"
   }
 }
