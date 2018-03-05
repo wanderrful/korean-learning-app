@@ -1,5 +1,5 @@
 interface App_P {
-    challenges: Array<Challenge>;
+    challenges?: Array<Challenge>;
 }
 
 interface Parent_S {
