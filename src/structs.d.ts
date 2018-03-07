@@ -2,19 +2,19 @@ interface App_P {
     challenges?: Array<Challenge>;
 }
 
-interface Parent_S {
+interface Quiz_S {
     childText: string,
-    Response1_className: string,
+    Response_className: string,
     currentQuestionID: number,
 }
-interface Parent_P {
+interface Quiz_P {
     challenges: Array<Challenge>,
 }
 
-interface Child_P {
+interface Query_P {
     query: string,
     content: string,
-    Response1_className: string,
+    Response_className: string,
     onUpdateText(newText: string): void,
     onSubmitText(): void,
 }

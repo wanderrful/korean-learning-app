@@ -1,15 +1,17 @@
 import * as React from "react";
 import { FormControl } from "react-bootstrap";
 
-import "../styles/App.css";
+import "../styles/Query.css";
 
 
-class Child_C extends React.Component<Child_P, object> {
-    constructor(props: Child_P) {
+class Query extends React.Component<Query_P, object> {
+    constructor(props: Query_P) {
         super(props);
         this.onChange_Response1 = this.onChange_Response1.bind(this);
         this.onEvent_Response1 = this.onEvent_Response1.bind(this);
     }
+
+    // Event handler functions
     onChange_Response1(e: React.ChangeEvent<HTMLInputElement>): void {
         this.props.onUpdateText(e.target.value);
     }
@@ -18,29 +20,28 @@ class Child_C extends React.Component<Child_P, object> {
             this.props.onSubmitText();
         }
     }
-    
-    asdf: Function;
 
     render() {
+        const {query, content, Response_className} = this.props;
         return(
-            <div className="">
-                <p className="Query_C">
-                    {this.props.query}
+            <div>
+                <p className="Query">
+                    {query}
                 </p>
 
                 <input 
                     type="text" 
-                    className={this.props.Response1_className}
+                    className={Response_className}
                     autoFocus={true}
-                    value={this.props.content}
+                    value={content}
                     onChange={this.onChange_Response1}
                     onKeyDown={this.onEvent_Response1}
                 />
             </div>
         );
-        }
+    }
   }
 
 
 
-export default Child_C;
+export default Query;
