@@ -1,4 +1,9 @@
+input {
+    width: 100%; 
+}
+
 .Query {
+    text-align: center;
     font-size: 2em;
     font-weight: 900;
     margin: 0;

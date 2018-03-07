@@ -2,13 +2,15 @@
   margin: 0 auto;
   padding: 20px;
   width: 15em;
-}
 
-.asdf {
   height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.QuestionCount {
+  text-align: center;
 }
 
 .CheckmarkAnimation {

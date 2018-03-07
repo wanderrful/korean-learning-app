@@ -75,7 +75,7 @@ class Quiz extends React.Component<Quiz_P, Quiz_S> {
         return (
             <div className="Quiz">
                 <fieldset className="QueryContainer">
-                    <legend>
+                    <legend className="QuestionCount">
                         Question {currentQuestionID + 1} of {challenges.length}
                     </legend>
                     <Query 
