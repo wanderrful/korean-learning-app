@@ -16,7 +16,7 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
-    "@types/bootstrap": "^4.0.0",
+    "@types/bootstrap": "^3.0.0",
     "@types/jest": "^20.0.2",
     "@types/node": "^8.0.7",
     "@types/react": "^15.0.34",

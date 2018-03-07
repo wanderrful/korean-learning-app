@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Alert } from "react-bootstrap";
 
 import Parent_C from "./Parent_C";
 
@@ -32,8 +33,13 @@ class App extends React.Component<App_P, object> {
 
   render() {
     if (this.challengeList.length > 0) {
-      return (
+      return (        
         <div className="App">
+          <Alert bsStyle="warning">
+            <strong>Holy guacamole!</strong> Best check yo self, you're not looking too
+            good.
+          </Alert>
+
           <Parent_C challenges={this.challengeList}/>
         </div>
       );
