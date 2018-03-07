@@ -35,9 +35,8 @@ class App extends React.Component<App_P, object> {
     if (this.challengeList.length > 0) {
       return (        
         <div className="App">
-          <Alert bsStyle="warning">
-            <strong>Holy guacamole!</strong> Best check yo self, you're not looking too
-            good.
+          <Alert bsStyle="danger">
+            <strong>Hey there!</strong> This app is still in development!
           </Alert>
 
           <Parent_C challenges={this.challengeList}/>
