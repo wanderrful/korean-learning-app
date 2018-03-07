@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as pg from "pg";
 
 import Parent_C from "./Parent_C";
 
@@ -16,7 +15,7 @@ class App extends React.Component<App_P, object> {
     if (this.props.challenges) {
       this.challengeList = this.props.challenges;
     } else {
-      /* TODO: debug and fix the undocumented pg DNS error
+      /* TODO: replace this deprecated back-end code with one that is compatible with create-react-app!
       const pgClient = new pg.Client({
         connectionString: process.env.DATABASE_URL
       });
@@ -28,31 +27,6 @@ class App extends React.Component<App_P, object> {
       pgClient.query(DB_CREATE_TABLE);
       pgClient.query(DB_RETRIEVE_WORDS, this.fn_onReceiveWordList);
       */
-    }
-  }
-
-  fn_onReceiveWordList(err: Error, result: pg.QueryResult): void {
-    if (result.rowCount >= 0) {
-      this.challengeList = [];
-      result.rows.forEach( x => {
-        this.challengeList.push(x);
-      });
-    } else {
-      // Fill the challengeList with placeholder data
-      this.challengeList = [
-        {
-          query: "비밀",
-          answer: "secret",
-        },
-        {
-          query: "닭고기",
-          answer: "chicken",
-        },
-        {
-          query: "연필",
-          answer: "pencil",
-        }
-      ];
     }
   }
 

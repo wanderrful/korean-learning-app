@@ -3,8 +3,9 @@
   "version": "0.2.0",
   "private": true,
   "dependencies": {
-    "pg": "^7.4.0",
+    "bootstrap": "^3.3.7",
     "react": "^15.6.1",
+    "react-bootstrap": "^0.32.1",
     "react-dom": "^15.6.1",
     "react-scripts-ts": "2.3.2"
   },
@@ -15,10 +16,11 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
-    "@types/pg": "^7.4.0",
+    "@types/bootstrap": "^4.0.0",
     "@types/jest": "^20.0.2",
     "@types/node": "^8.0.7",
     "@types/react": "^15.0.34",
+    "@types/react-bootstrap": "^0.32.6",
     "@types/react-dom": "^15.5.1"
   }
 }
