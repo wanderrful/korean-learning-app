@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Alert } from "react-bootstrap";
 
-import Parent_C from "./Parent_C";
+import Quiz from "./Quiz";
 
 import "../styles/App.css";
 
@@ -12,9 +12,11 @@ class App extends React.Component<App_P, object> {
   challengeList: Array<Challenge>;
 
   componentWillMount() {
+    const {challenges} = this.props;
+
     // TODO: dispatch the async FETCH action to the reducer here (I think?)
-    if (this.props.challenges) {
-      this.challengeList = this.props.challenges;
+    if (challenges) {
+      this.challengeList = challenges;
     } else {
       /* TODO: replace this deprecated back-end code with one that is compatible with create-react-app!
       const pgClient = new pg.Client({
@@ -32,6 +34,7 @@ class App extends React.Component<App_P, object> {
   }
 
   render() {
+
     if (this.challengeList.length > 0) {
       return (        
         <div className="App">
@@ -39,13 +42,13 @@ class App extends React.Component<App_P, object> {
             <strong>Hey there!</strong> This app is still in development!
           </Alert>
 
-          <Parent_C challenges={this.challengeList}/>
+          <Quiz challenges={this.challengeList}/>
         </div>
       );
     } else {
       return (
         <div className="App">
-        Loading...
+          Loading...
         </div>
       );
     }

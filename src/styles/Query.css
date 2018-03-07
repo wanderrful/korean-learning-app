@@ -1,0 +1,32 @@
+.Query {
+    font-size: 2em;
+    font-weight: 900;
+    margin: 0;
+}
+
+.Response_normal {
+    background-color: white;
+}
+.Response_correct {
+    animation: Correct-Answer 1 0.2s linear;
+}
+.Response_wrong {
+    animation: Wrong-Answer 1 0.2s linear;
+}
+
+
+
+@keyframes Correct-Answer {
+    0% { background-color: white; }
+    20% { background-color:greenyellow; }
+    100% { background-color: white; }
+}
+@keyframes Wrong-Answer {
+    0% { background-color: white; }
+    20% { background-color: tomato; }
+    100% { background-color: white; }
+}
+@keyframes Checkmark-Spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

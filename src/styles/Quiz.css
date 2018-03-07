@@ -1,0 +1,21 @@
+.Quiz {
+  margin: 0 auto;
+  padding: 20px;
+  width: 15em;
+}
+
+.asdf {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.CheckmarkAnimation {
+  font-size: 5em;
+  font-weight: 900;
+  width: 100px;
+  margin: 0 auto;
+  color: green;
+  animation: Checkmark-Spin infinite 1s linear;
+}
