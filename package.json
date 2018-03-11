@@ -2,6 +2,7 @@
   "name": "korean-learning-app",
   "version": "0.2.0",
   "private": true,
+  "homepage": "https://wanderrful.github.io/korean-learning-app",
   "dependencies": {
     "bootstrap": "^3.3.7",
     "react": "^15.6.1",
@@ -13,7 +14,8 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "deploy": "npm run build && gh-pages -d build"
   },
   "devDependencies": {
     "@types/bootstrap": "^3.0.0",
@@ -21,6 +23,7 @@
     "@types/node": "^8.0.7",
     "@types/react": "^15.0.34",
     "@types/react-bootstrap": "^0.32.6",
-    "@types/react-dom": "^15.5.1"
+    "@types/react-dom": "^15.5.1",
+    "gh-pages": "^1.1.0"
   }
 }
