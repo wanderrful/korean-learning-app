@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FormControl } from "react-bootstrap";
+import { Panel, FormControl, ListGroup, ListGroupItem } from "react-bootstrap";
 
 import "../styles/Quiz.css";
 
@@ -9,6 +9,7 @@ interface Quiz_S {
     childText: string,
     Response_className: string,
     currentQuestionID: number,
+    wrongGuesses: Array<string>,
 }
 interface Quiz_P {
     challenges: Array<Challenge>,
@@ -24,6 +25,7 @@ class Quiz extends React.Component<Quiz_P, Quiz_S> {
             childText: "",
             Response_className: "Response_normal",
             currentQuestionID: 0,
+            wrongGuesses: []
         };
 
         // Bind event handlers
@@ -49,22 +51,33 @@ class Quiz extends React.Component<Quiz_P, Quiz_S> {
     }
     onEvaluateResponse(e: React.KeyboardEvent<FormControl & HTMLInputElement>) {
         if (e.key === "Enter") {
-            let response: string = this.state.childText;
-            let actualAnswer: string = this.props.challenges[this.state.currentQuestionID].answer;
-            if (response.toLowerCase() === actualAnswer.toLowerCase()) {
+            const {childText, currentQuestionID} = this.state;
+            const {challenges} = this.props;
+            
+            const actualAnswer: string = challenges[currentQuestionID].answer;
+            
+            if (childText.toLowerCase() === actualAnswer.toLowerCase()) {
                 if (!this.bHasCompletedChallenges) {
                     this.setState({
                         ... this.state,
                         childText: "",
                         Response_className: "Response_correct",
-                        currentQuestionID: this.state.currentQuestionID + 1,
+                        currentQuestionID: currentQuestionID + 1,
+                        wrongGuesses: [],
                     });
                 }
             } else {
+                const {wrongGuesses} = this.state;
+                let temp = wrongGuesses;
+                temp.push(childText);
+                if (temp.length > 3) {
+                    temp.shift();
+                }
                 this.setState({
-                ... this.state,
-                childText: "",
-                Response_className: "Response_wrong",
+                    ... this.state,
+                    childText: "",
+                    Response_className: "Response_wrong",
+                    wrongGuesses: temp,
                 });
             }
         }
@@ -84,16 +97,21 @@ class Quiz extends React.Component<Quiz_P, Quiz_S> {
         );
     }
     renderQuiz() {
-        const {currentQuestionID} = this.state;
+        const {currentQuestionID, wrongGuesses} = this.state;
         const {challenges} = this.props;
 
         return (
             <div className="Quiz">
                 <fieldset className="QueryContainer">
-                    <legend className="QuestionCount">
+                    <legend>
                         Question {currentQuestionID + 1} of {challenges.length}
                     </legend>
+                    
                     {this.renderQuery()}
+
+                    {(wrongGuesses.length > 0) &&
+                        this.renderPreviousGuesses()
+                    }
                 </fieldset>
             </div>
         );
@@ -116,6 +134,19 @@ class Quiz extends React.Component<Quiz_P, Quiz_S> {
                     onKeyDown={this.onEvaluateResponse}
                 />
             </div>
+        );
+    }
+    renderPreviousGuesses() {
+        const {wrongGuesses} = this.state;
+        return (
+            <p className="wrong_guesses">
+                <Panel bsStyle="danger">
+                    <Panel.Heading><b>Wrong guesses</b></Panel.Heading>
+                    <ListGroup className="test">
+                        {wrongGuesses.map( x => (<ListGroupItem>{x}</ListGroupItem>) )}
+                    </ListGroup>
+                </Panel>
+            </p>
         );
     }
 

@@ -39,25 +39,29 @@ class App extends React.Component<App_P, object> {
     }
   }
 
+  renderApp() {
+    return (        
+      <div>
+        <Alert bsStyle="danger">
+          <strong>Hey there!</strong> This app is still in development!
+        </Alert>
+
+        <Quiz challenges={this.challengeList}/>
+      </div>
+    );
+  }
+  renderLoading() {
+    return (
+        "Loading..."
+    );
+  }
+
   render() {
-
-    if (this.challengeList.length > 0) {
-      return (        
-        <div className="App">
-          <Alert bsStyle="danger">
-            <strong>Hey there!</strong> This app is still in development!
-          </Alert>
-
-          <Quiz challenges={this.challengeList}/>
-        </div>
-      );
-    } else {
-      return (
-        <div className="App">
-          Loading...
-        </div>
-      );
-    }
+    return (
+      <div className="App">
+        {(this.challengeList.length > 0) ? this.renderApp() : this.renderLoading() }
+      </div>
+    );
   }
 }
 
