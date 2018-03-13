@@ -7,6 +7,12 @@ import "../styles/App.css";
 
 
 
+interface App_P {
+  challenges?: Array<Challenge>;
+}
+
+
+
 // TODO: use App_P for props after connecting this component to the Redux store!
 class App extends React.Component<App_P, object> {
   challengeList: Array<Challenge>;

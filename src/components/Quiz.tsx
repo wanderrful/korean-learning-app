@@ -1,7 +1,20 @@
 import * as React from "react";
+import { FormControl } from "react-bootstrap";
 
-import Query from "./Query";
 import "../styles/Quiz.css";
+
+
+
+interface Quiz_S {
+    childText: string,
+    Response_className: string,
+    currentQuestionID: number,
+}
+interface Quiz_P {
+    challenges: Array<Challenge>,
+}
+
+
 
 class Quiz extends React.Component<Quiz_P, Quiz_S> {
     constructor(props: Quiz_P) {
@@ -27,31 +40,33 @@ class Quiz extends React.Component<Quiz_P, Quiz_S> {
     }
 
     // Event handler functions
-    onUpdateChildText(newText: string): void {
+    onUpdateChildText(e: React.ChangeEvent<HTMLInputElement>): void {
         this.setState({
             ... this.state,
-            childText: newText,
+            childText: e.target.value,
             Response_className: "Response_normal",
         });
     }
-    onEvaluateResponse() {
-        let response: string = this.state.childText;
-        let actualAnswer: string = this.props.challenges[this.state.currentQuestionID].answer;
-        if (response.toLowerCase() === actualAnswer.toLowerCase()) {
-            if (!this.bHasCompletedChallenges) {
+    onEvaluateResponse(e: React.KeyboardEvent<FormControl & HTMLInputElement>) {
+        if (e.key === "Enter") {
+            let response: string = this.state.childText;
+            let actualAnswer: string = this.props.challenges[this.state.currentQuestionID].answer;
+            if (response.toLowerCase() === actualAnswer.toLowerCase()) {
+                if (!this.bHasCompletedChallenges) {
+                    this.setState({
+                        ... this.state,
+                        childText: "",
+                        Response_className: "Response_correct",
+                        currentQuestionID: this.state.currentQuestionID + 1,
+                    });
+                }
+            } else {
                 this.setState({
-                    ... this.state,
-                    childText: "",
-                    Response_className: "Response_correct",
-                    currentQuestionID: this.state.currentQuestionID + 1,
+                ... this.state,
+                childText: "",
+                Response_className: "Response_wrong",
                 });
             }
-        } else {
-            this.setState({
-            ... this.state,
-            childText: "",
-            Response_className: "Response_wrong",
-            });
         }
     }
 
@@ -69,7 +84,7 @@ class Quiz extends React.Component<Quiz_P, Quiz_S> {
         );
     }
     renderQuiz() {
-        const {currentQuestionID, childText, Response_className} = this.state;
+        const {currentQuestionID} = this.state;
         const {challenges} = this.props;
 
         return (
@@ -78,14 +93,28 @@ class Quiz extends React.Component<Quiz_P, Quiz_S> {
                     <legend className="QuestionCount">
                         Question {currentQuestionID + 1} of {challenges.length}
                     </legend>
-                    <Query 
-                        query={challenges[currentQuestionID].query}
-                        content={childText}
-                        Response_className={Response_className}
-                        onUpdateText={this.onUpdateChildText}
-                        onSubmitText={this.onEvaluateResponse}
-                    />
+                    {this.renderQuery()}
                 </fieldset>
+            </div>
+        );
+    }
+    renderQuery() {
+        const {challenges} = this.props;
+        const {childText, Response_className, currentQuestionID} = this.state;
+        return(
+            <div>
+                <p className="Query">
+                    {challenges[currentQuestionID].query}
+                </p>
+
+                <input 
+                    type="text" 
+                    className={Response_className}
+                    autoFocus={true}
+                    value={childText}
+                    onChange={this.onUpdateChildText}
+                    onKeyDown={this.onEvaluateResponse}
+                />
             </div>
         );
     }
