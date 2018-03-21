@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Component, ChangeEvent, KeyboardEvent } from "react";
 import { Panel, FormControl, ListGroup, ListGroupItem } from "react-bootstrap";
 
 import "../styles/Quiz.css";
@@ -17,7 +18,7 @@ interface Quiz_P {
 
 
 
-class Quiz extends React.Component<Quiz_P, Quiz_S> {
+class Quiz extends Component<Quiz_P, Quiz_S> {
     constructor(props: Quiz_P) {
         super(props);
 
@@ -42,14 +43,14 @@ class Quiz extends React.Component<Quiz_P, Quiz_S> {
     }
 
     // Event handler functions
-    onUpdateChildText(e: React.ChangeEvent<HTMLInputElement>): void {
+    onUpdateChildText(e: ChangeEvent<HTMLInputElement>): void {
         this.setState({
             ... this.state,
             childText: e.target.value,
             Response_className: "Response_normal",
         });
     }
-    onEvaluateResponse(e: React.KeyboardEvent<FormControl & HTMLInputElement>) {
+    onEvaluateResponse(e: KeyboardEvent<FormControl & HTMLInputElement>) {
         if (e.key === "Enter") {
             const {childText, currentQuestionID} = this.state;
             const {challenges} = this.props;

@@ -1,8 +1,8 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { render } from "react-dom";
 import { Alert } from "react-bootstrap";
 
-import App from "./components/App";
+import App from "./App";
 
 
 
@@ -23,10 +23,10 @@ const testData: Array<Challenge> = [ // TODO: export this to a database and impo
 
 it("renders without crashing", () => {
   const div = document.createElement("div");
-  ReactDOM.render(<App challenges={testData} />, div);
+  render(<App challenges={testData} />, div);
 });
 
 it("renders react-bootstrap without crashing", () => {
   const div = document.createElement("div");
-  ReactDOM.render(<Alert bsStyle="warning"> test </Alert>, div);
+  render(<Alert bsStyle="warning"> test </Alert>, div);
 });

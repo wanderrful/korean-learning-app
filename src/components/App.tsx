@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Component } from "react";
 import { Alert } from "react-bootstrap";
 
 import Quiz from "./Quiz";
@@ -14,7 +15,7 @@ interface App_P {
 
 
 // TODO: use App_P for props after connecting this component to the Redux store!
-class App extends React.Component<App_P, object> {
+class App extends Component<App_P, object> {
   challengeList: Array<Challenge>;
 
   componentWillMount() {
