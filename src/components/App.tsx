@@ -8,36 +8,49 @@ import "../styles/App.css";
 
 
 
-interface App_P {
-  challenges?: Array<Challenge>;
-}
+type AppState = {
+  challenges: Array<Challenge>
+};
 
 
 
 // TODO: use App_P for props after connecting this component to the Redux store!
-class App extends Component<App_P, object> {
-  challengeList: Array<Challenge>;
+class App extends Component<object, AppState> {
 
-  componentWillMount() {
-    const {challenges} = this.props;
+  constructor(props) {
+    super(props);
+    this.state = {challenges: []};
+  }
 
-    // TODO: dispatch the async FETCH action to the reducer here (I think?)
-    if (challenges) {
-      this.challengeList = challenges;
-    } else {
-      /* TODO: replace this deprecated back-end code with one that is compatible with create-react-app!
-      const pgClient = new pg.Client({
-        connectionString: process.env.DATABASE_URL
-      });
-      
-      const DB_TABLE_NAME: string = "db_wordList";
-      const DB_CREATE_TABLE: string = `CREATE TABLE IF NOT EXIST ${DB_TABLE_NAME} (query string, answer string)`;
-      const DB_RETRIEVE_WORDS: string = `SELECT * FROM ${DB_TABLE_NAME}`;
-      
-      pgClient.query(DB_CREATE_TABLE);
-      pgClient.query(DB_RETRIEVE_WORDS, this.fn_onReceiveWordList);
-      */
+  componentDidMount() {
+    // Query the back-end API for the quiz's word list
+    fetch(`${process.env.BACKEND_URL}/api/words`, {
+      method: "GET",
+      mode: "cors"
+    })
+      .then(res => res.json())
+      .then(json => this.setState({challenges: json.data}))
+      .catch(err => console.error(err));
+
+    // If the fetch messed up, use test data instead
+    /*
+    if (!this.challengeList) {
+      this.challengeList = [
+        {
+          query: "비밀",
+          answer: "secret",
+        },
+        {
+          query: "닭고기",
+          answer: "chicken",
+        },
+        {
+          query: "연필",
+          answer: "pencil",
+        }
+      ];
     }
+    */
   }
 
   renderApp() {
@@ -47,20 +60,22 @@ class App extends Component<App_P, object> {
           <strong>Hey there!</strong> This app is still in development!
         </Alert>
 
-        <Quiz challenges={this.challengeList}/>
+        <Quiz challenges={this.state.challenges}/>
       </div>
     );
   }
   renderLoading() {
     return (
-        "Loading..."
+        <p>
+          Loading... ({this.state.challenges.length} words loaded)
+        </p>
     );
   }
 
   render() {
     return (
       <div className="App">
-        {(this.challengeList.length > 0) ? this.renderApp() : this.renderLoading() }
+        {(this.state.challenges.length > 0) ? this.renderApp() : this.renderLoading() }
       </div>
     );
   }
