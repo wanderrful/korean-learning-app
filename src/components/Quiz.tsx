@@ -55,7 +55,7 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
             const {childText, currentQuestionID} = this.state;
             const {challenges} = this.props;
             
-            const actualAnswer: string = challenges[currentQuestionID].answer;
+            const actualAnswer: string = challenges[currentQuestionID].word_en;
             
             if (childText.toLowerCase() === actualAnswer.toLowerCase()) {
                 if (!this.bHasCompletedChallenges) {
@@ -123,7 +123,7 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
         return(
             <div>
                 <p className="Query">
-                    {challenges[currentQuestionID].query}
+                    {challenges[currentQuestionID].word_kr}
                 </p>
 
                 <input 

@@ -24,12 +24,9 @@ class App extends Component<object, AppState> {
 
   componentDidMount() {
     // Query the back-end API for the quiz's word list
-    fetch(`${process.env.BACKEND_URL}/api/words`, {
-      method: "GET",
-      mode: "cors"
-    })
+    fetch("https://kla-backend.herokuapp.com/api/words")
       .then(res => res.json())
-      .then(json => this.setState({challenges: json.data}))
+      .then(x => this.setState({challenges: x.data}))
       .catch(err => console.error(err));
 
     // If the fetch messed up, use test data instead
