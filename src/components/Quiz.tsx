@@ -55,31 +55,32 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
             const {childText, currentQuestionID} = this.state;
             const {challenges} = this.props;
             
-            const actualAnswer: string = challenges[currentQuestionID].word_en;
+            const given: string = childText.trim().toLowerCase();
+            const actualAnswer: string = challenges[currentQuestionID].word_en.toLowerCase();
             
-            if (childText.toLowerCase() === actualAnswer.toLowerCase()) {
-                if (!this.bHasCompletedChallenges) {
+            if (given) {
+                if (given === actualAnswer) {
+                    if (!this.bHasCompletedChallenges) {
+                        this.setState({
+                            childText: "",
+                            Response_className: "Response_correct",
+                            currentQuestionID: currentQuestionID + 1,
+                            wrongGuesses: [],
+                        });
+                    }
+                } else {
+                    const {wrongGuesses} = this.state;
+                    let temp = wrongGuesses;
+                    temp.push(given);
+                    if (temp.length > 3) {
+                        temp.shift();
+                    }
                     this.setState({
-                        ... this.state,
                         childText: "",
-                        Response_className: "Response_correct",
-                        currentQuestionID: currentQuestionID + 1,
-                        wrongGuesses: [],
+                        Response_className: "Response_wrong",
+                        wrongGuesses: temp,
                     });
                 }
-            } else {
-                const {wrongGuesses} = this.state;
-                let temp = wrongGuesses;
-                temp.push(childText);
-                if (temp.length > 3) {
-                    temp.shift();
-                }
-                this.setState({
-                    ... this.state,
-                    childText: "",
-                    Response_className: "Response_wrong",
-                    wrongGuesses: temp,
-                });
             }
         }
     }
