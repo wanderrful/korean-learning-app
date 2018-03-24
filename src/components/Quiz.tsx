@@ -1,9 +1,24 @@
 import * as React from "react";
+import { Component, ChangeEvent, KeyboardEvent } from "react";
+import { Panel, FormControl, ListGroup, ListGroupItem } from "react-bootstrap";
 
-import Query from "./Query";
 import "../styles/Quiz.css";
 
-class Quiz extends React.Component<Quiz_P, Quiz_S> {
+
+
+interface Quiz_S {
+    childText: string,
+    Response_className: string,
+    currentQuestionID: number,
+    wrongGuesses: Array<string>,
+}
+interface Quiz_P {
+    challenges: Array<Challenge>,
+}
+
+
+
+class Quiz extends Component<Quiz_P, Quiz_S> {
     constructor(props: Quiz_P) {
         super(props);
 
@@ -11,6 +26,7 @@ class Quiz extends React.Component<Quiz_P, Quiz_S> {
             childText: "",
             Response_className: "Response_normal",
             currentQuestionID: 0,
+            wrongGuesses: []
         };
 
         // Bind event handlers
@@ -27,31 +43,45 @@ class Quiz extends React.Component<Quiz_P, Quiz_S> {
     }
 
     // Event handler functions
-    onUpdateChildText(newText: string): void {
+    onUpdateChildText(e: ChangeEvent<HTMLInputElement>): void {
         this.setState({
             ... this.state,
-            childText: newText,
+            childText: e.target.value,
             Response_className: "Response_normal",
         });
     }
-    onEvaluateResponse() {
-        let response: string = this.state.childText;
-        let actualAnswer: string = this.props.challenges[this.state.currentQuestionID].answer;
-        if (response.toLowerCase() === actualAnswer.toLowerCase()) {
-            if (!this.bHasCompletedChallenges) {
-                this.setState({
-                    ... this.state,
-                    childText: "",
-                    Response_className: "Response_correct",
-                    currentQuestionID: this.state.currentQuestionID + 1,
-                });
+    onEvaluateResponse(e: KeyboardEvent<FormControl & HTMLInputElement>) {
+        if (e.key === "Enter") {
+            const {childText, currentQuestionID} = this.state;
+            const {challenges} = this.props;
+            
+            const given: string = childText.trim().toLowerCase();
+            const actualAnswer: string = challenges[currentQuestionID].word_en.toLowerCase();
+            
+            if (given) {
+                if (given === actualAnswer) {
+                    if (!this.bHasCompletedChallenges) {
+                        this.setState({
+                            childText: "",
+                            Response_className: "Response_correct",
+                            currentQuestionID: currentQuestionID + 1,
+                            wrongGuesses: [],
+                        });
+                    }
+                } else {
+                    const {wrongGuesses} = this.state;
+                    let temp = wrongGuesses;
+                    temp.push(given);
+                    if (temp.length > 3) {
+                        temp.shift();
+                    }
+                    this.setState({
+                        childText: "",
+                        Response_className: "Response_wrong",
+                        wrongGuesses: temp,
+                    });
+                }
             }
-        } else {
-            this.setState({
-            ... this.state,
-            childText: "",
-            Response_className: "Response_wrong",
-            });
         }
     }
 
@@ -69,24 +99,56 @@ class Quiz extends React.Component<Quiz_P, Quiz_S> {
         );
     }
     renderQuiz() {
-        const {currentQuestionID, childText, Response_className} = this.state;
+        const {currentQuestionID, wrongGuesses} = this.state;
         const {challenges} = this.props;
 
         return (
             <div className="Quiz">
                 <fieldset className="QueryContainer">
-                    <legend className="QuestionCount">
+                    <legend>
                         Question {currentQuestionID + 1} of {challenges.length}
                     </legend>
-                    <Query 
-                        query={challenges[currentQuestionID].query}
-                        content={childText}
-                        Response_className={Response_className}
-                        onUpdateText={this.onUpdateChildText}
-                        onSubmitText={this.onEvaluateResponse}
-                    />
+                    
+                    {this.renderQuery()}
+
+                    {(wrongGuesses.length > 0) &&
+                        this.renderPreviousGuesses()
+                    }
                 </fieldset>
             </div>
+        );
+    }
+    renderQuery() {
+        const {challenges} = this.props;
+        const {childText, Response_className, currentQuestionID} = this.state;
+        return(
+            <div>
+                <p className="Query">
+                    {challenges[currentQuestionID].word_kr}
+                </p>
+
+                <input 
+                    type="text" 
+                    className={Response_className}
+                    autoFocus={true}
+                    value={childText}
+                    onChange={this.onUpdateChildText}
+                    onKeyDown={this.onEvaluateResponse}
+                />
+            </div>
+        );
+    }
+    renderPreviousGuesses() {
+        const {wrongGuesses} = this.state;
+        return (
+            <p className="wrong_guesses">
+                <Panel bsStyle="danger">
+                    <Panel.Heading><b>Wrong guesses</b></Panel.Heading>
+                    <ListGroup className="test">
+                        {wrongGuesses.map( x => (<ListGroupItem>{x}</ListGroupItem>) )}
+                    </ListGroup>
+                </Panel>
+            </p>
         );
     }
 

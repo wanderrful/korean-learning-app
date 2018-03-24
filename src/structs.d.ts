@@ -1,16 +1,3 @@
-interface App_P {
-    challenges?: Array<Challenge>;
-}
-
-interface Quiz_S {
-    childText: string,
-    Response_className: string,
-    currentQuestionID: number,
-}
-interface Quiz_P {
-    challenges: Array<Challenge>,
-}
-
 interface Query_P {
     query: string,
     content: string,
@@ -20,6 +7,6 @@ interface Query_P {
 }
 
 interface Challenge {
-    query: string,
-    answer: string,
+    word_kr: string,
+    word_en: string,
 }
