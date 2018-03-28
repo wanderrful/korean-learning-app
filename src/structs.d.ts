@@ -7,6 +7,8 @@ interface Query_P {
 }
 
 interface Challenge {
-    word_kr: string,
-    word_en: string,
+    id: number,
+    word_kr: Array<string>,
+    word_en: Array<string>,
+    hint: string,
 }

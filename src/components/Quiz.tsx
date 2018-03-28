@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component, ChangeEvent, KeyboardEvent } from "react";
-import { Panel, FormControl, ListGroup, ListGroupItem } from "react-bootstrap";
+import { Panel, FormControl, ListGroup, ListGroupItem, Glyphicon, Popover, Overlay } from "react-bootstrap";
 
 import "../styles/Quiz.css";
 
@@ -26,7 +26,7 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
             childText: "",
             Response_className: "Response_normal",
             currentQuestionID: 0,
-            wrongGuesses: []
+            wrongGuesses: [],
         };
 
         // Bind event handlers
@@ -56,10 +56,11 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
             const {challenges} = this.props;
             
             const given: string = childText.trim().toLowerCase();
-            const actualAnswer: string = challenges[currentQuestionID].word_en.toLowerCase();
+            const actualAnswers: Array<string> = challenges[currentQuestionID].word_en;
             
             if (given) {
-                if (given === actualAnswer) {
+                if (actualAnswers.indexOf(given) !== -1) {
+                    // Correct answer!
                     if (!this.bHasCompletedChallenges) {
                         this.setState({
                             childText: "",
@@ -69,6 +70,7 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
                         });
                     }
                 } else {
+                    // Wrong answer!
                     const {wrongGuesses} = this.state;
                     let temp = wrongGuesses;
                     temp.push(given);
@@ -90,7 +92,7 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
         return (
             <div className="Quiz">
                 <p className="CheckmarkAnimation">
-                    ✔️ 
+                    <Glyphicon glyph="plus" />
                 </p>
                 <p>
                     All questions have been answered correctly!
@@ -104,10 +106,16 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
 
         return (
             <div className="Quiz">
+                <h3>
+                        Translate to English
+                </h3>
+
                 <fieldset className="QueryContainer">
                     <legend>
                         Question {currentQuestionID + 1} of {challenges.length}
                     </legend>
+
+                                        
                     
                     {this.renderQuery()}
 
@@ -120,21 +128,37 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
     }
     renderQuery() {
         const {challenges} = this.props;
-        const {childText, Response_className, currentQuestionID} = this.state;
+        const {childText, Response_className, currentQuestionID, wrongGuesses} = this.state;
         return(
             <div>
                 <p className="Query">
-                    {challenges[currentQuestionID].word_kr}
+                    {challenges[currentQuestionID].word_kr[0]}
                 </p>
 
-                <input 
-                    type="text" 
-                    className={Response_className}
-                    autoFocus={true}
-                    value={childText}
-                    onChange={this.onUpdateChildText}
-                    onKeyDown={this.onEvaluateResponse}
-                />
+                <p>
+                    <input 
+                        type="text" 
+                        id="guess-bar"
+                        className={Response_className}
+                        autoFocus={true}
+                        value={childText}
+                        onChange={this.onUpdateChildText}
+                        onKeyDown={this.onEvaluateResponse}
+                    />
+
+                    <Overlay
+                        show={wrongGuesses.length > 2}
+                        target={document.getElementById("guess-bar")}
+                    >
+                        <Popover
+                            placement="right"
+                            positionLeft={5}
+                            title="Hint"
+                        >
+                            {challenges[currentQuestionID].hint}
+                        </Popover>
+                    </Overlay>
+                </p>
             </div>
         );
     }
