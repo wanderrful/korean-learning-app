@@ -90,7 +90,7 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
         return (
             <div className="Quiz">
                 <p className="CheckmarkAnimation">
-                    ✔️ 
+                    * 
                 </p>
                 <p>
                     All questions have been answered correctly!
@@ -104,10 +104,16 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
 
         return (
             <div className="Quiz">
+                <h3>
+                        Translate to English
+                </h3>
+
                 <fieldset className="QueryContainer">
                     <legend>
                         Question {currentQuestionID + 1} of {challenges.length}
                     </legend>
+
+                                        
                     
                     {this.renderQuery()}
 
