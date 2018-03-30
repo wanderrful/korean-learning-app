@@ -15,6 +15,7 @@
   width: 100px;
   margin: 0 auto;
   color: green;
+  transform-origin: 50% 50%;
   animation: Checkmark-Spin infinite 1s linear;
 }
 
@@ -28,6 +29,7 @@ input {
 }
 
 .Query {
+  user-select: none;
   text-align: center;
   font-size: 4em;
   font-weight: 900;
