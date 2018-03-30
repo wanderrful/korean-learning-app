@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component, ChangeEvent, KeyboardEvent } from "react";
-import { Panel, FormControl, ListGroup, ListGroupItem, Glyphicon, Popover, Overlay } from "react-bootstrap";
+import { Panel, Button, FormControl, ListGroup, ListGroupItem, Glyphicon, Popover, Overlay, ProgressBar, Table, FormGroup } from "react-bootstrap";
 
 import "../styles/Quiz.css";
 
@@ -32,6 +32,7 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
         // Bind event handlers
         this.onUpdateChildText = this.onUpdateChildText.bind(this);
         this.onEvaluateResponse = this.onEvaluateResponse.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
     }
 
     // Getter functions
@@ -41,18 +42,49 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
 
         return (currentQuestionID === challenges.length);
     }
+    get progressPercentage(): number {
+        const {currentQuestionID} = this.state;
+        const {challenges} = this.props;
+        return ( currentQuestionID / challenges.length * 100 );
+    }
+    get progressLabel(): string {
+        const {currentQuestionID} = this.state;
+        const {challenges} = this.props;
+        return (currentQuestionID > 0) ? `${currentQuestionID} of ${challenges.length}` : "";
+    }
+    get validationState(): IValidationState {
+        const {Response_className} = this.state;
+        let result: IValidationState;
+        
+        switch (Response_className) {
+            case "Response_correct":
+                result = "success";
+                break;
+            case "Response_wrong":
+                result = "error";
+                break;
+            default:
+                result = null;
+                break;
+        }
+        
+        return result;
+    }
 
     // Event handler functions
-    onUpdateChildText(e: ChangeEvent<HTMLInputElement>): void {
+    onUpdateChildText(e: ChangeEvent<HTMLInputElement & EventTarget & FormControl>): void {
         this.setState({
-            ... this.state,
             childText: e.target.value,
             Response_className: "Response_normal",
         });
     }
-    onEvaluateResponse(e: KeyboardEvent<FormControl & HTMLInputElement>) {
+    onKeyDown(e: KeyboardEvent<HTMLInputElement & EventTarget & FormControl>): void {
         if (e.key === "Enter") {
-            const {childText, currentQuestionID} = this.state;
+            this.onEvaluateResponse();
+        }
+    }
+    onEvaluateResponse() {
+        const {childText, currentQuestionID} = this.state;
             const {challenges} = this.props;
             
             const given: string = childText.trim().toLowerCase();
@@ -73,9 +105,9 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
                     // Wrong answer!
                     const {wrongGuesses} = this.state;
                     let temp = wrongGuesses;
-                    temp.push(given);
+                    temp.unshift(given);
                     if (temp.length > 3) {
-                        temp.shift();
+                        temp.pop();
                     }
                     this.setState({
                         childText: "",
@@ -83,12 +115,17 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
                         wrongGuesses: temp,
                     });
                 }
+
+                // Reset the input field's class name after the animation finishes
+                setTimeout(() => { 
+                    this.setState({Response_className: "Response_normal"})
+                }, 1200);
             }
-        }
     }
 
     // Rendering helper functions
     renderPostQuiz() {
+        const {challenges} = this.props;
         return (
             <div className="Quiz">
                 <p className="CheckmarkAnimation">
@@ -97,26 +134,50 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
                 <p>
                     All questions have been answered correctly!
                 </p>
+                <div className="post-quiz-table">
+                    <Table striped bordered condensed hover>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Korean</th>
+                                <th>English</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {challenges.map( x => {
+                            return (
+                                <tr>
+                                    <td>{x.id}</td>
+                                    <td>{x.word_kr[0]}</td>
+                                    <td>{x.word_en[0]}</td>
+                                </tr>
+                            );
+                        })}
+                        </tbody>
+                    </Table>
+                </div>
             </div>
         );
     }
     renderQuiz() {
-        const {currentQuestionID, wrongGuesses} = this.state;
-        const {challenges} = this.props;
+        const {wrongGuesses} = this.state;
 
         return (
             <div className="Quiz">
                 <h3>
-                        Translate to English
+                        Vocabulary Quiz
                 </h3>
 
                 <fieldset className="QueryContainer">
-                    <legend>
-                        Question {currentQuestionID + 1} of {challenges.length}
+                    <legend className="question-number">
+                        <ProgressBar 
+                            active 
+                            bsStyle="success" 
+                            now={this.progressPercentage} 
+                            label={this.progressLabel} 
+                        />
                     </legend>
 
-                                        
-                    
                     {this.renderQuery()}
 
                     {(wrongGuesses.length > 0) &&
@@ -135,19 +196,30 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
                     {challenges[currentQuestionID].word_kr[0]}
                 </p>
 
-                <p>
-                    <input 
+                <FormGroup
+                    validationState={this.validationState}
+                >
+                    <FormControl 
                         type="text" 
                         id="guess-bar"
                         className={Response_className}
                         autoFocus={true}
                         value={childText}
+                        placeholder="Press Enter to submit"
                         onChange={this.onUpdateChildText}
-                        onKeyDown={this.onEvaluateResponse}
+                        onKeyDown={this.onKeyDown}
                     />
+                    <FormControl.Feedback />
 
+                    <Button
+                        onClick={this.onEvaluateResponse}
+                        bsStyle="xs"
+                    >
+                        Submit
+                    </Button>
+                    
                     <Overlay
-                        show={wrongGuesses.length > 2}
+                        show={wrongGuesses.length > 0}
                         target={document.getElementById("guess-bar")}
                     >
                         <Popover
@@ -158,6 +230,10 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
                             {challenges[currentQuestionID].hint}
                         </Popover>
                     </Overlay>
+                </FormGroup>
+
+                <p className="tip">
+                    <i>Press Enter to submit</i>
                 </p>
             </div>
         );
@@ -166,7 +242,7 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
         const {wrongGuesses} = this.state;
         return (
             <p className="wrong_guesses">
-                <Panel bsStyle="danger">
+                <Panel bsStyle="info">
                     <Panel.Heading><b>Wrong guesses</b></Panel.Heading>
                     <ListGroup className="test">
                         {wrongGuesses.map( x => (<ListGroupItem>{x}</ListGroupItem>) )}
@@ -176,8 +252,8 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
         );
     }
 
-    
-    
+
+
     render() {
         return (
             <div>

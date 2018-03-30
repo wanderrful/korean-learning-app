@@ -12,3 +12,5 @@ interface Challenge {
     word_en: Array<string>,
     hint: string,
 }
+
+type IValidationState = ("success" | "warning" | "error");

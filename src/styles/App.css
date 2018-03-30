@@ -1,3 +1,44 @@
 .App {
     text-align: center;
+    width: 20em;
+    height: 30em;
+    width: auto;
 }
+
+.loading-spinner {
+    font-size: 5em;
+    font-weight: 900;
+    width: 100px;
+    margin: 0 auto;
+    color: darkcyan;
+    animation: Loading-Spin infinite 1s linear;
+}
+
+.tip {
+    font-size: 0.8em;
+    color: darkslategray;
+}
+
+footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 1em;
+    text-align: left;
+    vertical-align: bottom;
+    font-size: 1em;
+}
+
+.github-banner {
+    position: absolute; 
+    top: 0; 
+    right: 0; 
+    border: 0;
+}
+
+
+
+@keyframes Loading-Spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
