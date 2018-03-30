@@ -26,9 +26,9 @@ Front-end:
 
 Back-end:
 - Node
-- Express (back-end only)
-- PostgreSQL (back-end only)
-- Pg-promise (back-end only)
-- Bluebird (back-end only)
+- Express
+- PostgreSQL 
+- Pg-promise
+- Bluebird
 
 This repo is only the front-end half of the project.  You can find the source code for the back-end Express server here in this repo: https://github.com/wanderrful/kla-backend
