@@ -1,8 +1,9 @@
 ## Korean-Learning-App
 
-This is a proof of concept for a TypeScript and React-based web app that tests your Korean vocabulary knowledge through a sequence of challenge prompts.
+[Click here for a live version of this web app!](https://wanderrful.github.io/korean-learning-app/)
 
-Here's a simple video demosntration:  https://www.youtube.com/watch?v=sHXQMWSky9U
+This is a portfolio project demonstrating a TypeScript and React-based front-end web app with an Express and PostgreSQL back-end that tests your Korean vocabulary knowledge through a sequence of challenge prompts.
+
 
 
 
@@ -16,15 +17,18 @@ To test this web app, simply clone the master branch of this repo to your hard d
 
 This app uses the following technologies:
 
+Front-end:
 - React
 - Bootstrap
+- Webpack
+- CSS Animation
+- Dotenv
+
+Back-end:
 - Node
 - Express (back-end only)
 - PostgreSQL (back-end only)
 - Pg-promise (back-end only)
 - Bluebird (back-end only)
-- Webpack
-- CSS Animation
-- Dotenv
 
-This repo is the front-end half of the project.  The back-end repo's source code exists as "kla-backend" for my Github account.
+This repo is only the front-end half of the project.  You can find the source code for the back-end Express server here in this repo: https://github.com/wanderrful/kla-backend
