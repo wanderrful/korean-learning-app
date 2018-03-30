@@ -178,11 +178,15 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
                         />
                     </legend>
 
-                    {this.renderQuery()}
-
-                    {(wrongGuesses.length > 0) &&
-                        this.renderPreviousGuesses()
-                    }
+                    <p>
+                        {this.renderQuery()}
+                    </p>
+                    
+                    {(wrongGuesses.length > 0) && (
+                        <p>
+                            {this.renderPreviousGuesses()}
+                        </p>
+                    )}
                 </fieldset>
             </div>
         );
@@ -211,12 +215,7 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
                     />
                     <FormControl.Feedback />
 
-                    <Button
-                        onClick={this.onEvaluateResponse}
-                        bsStyle="xs"
-                    >
-                        Submit
-                    </Button>
+                    
                     
                     <Overlay
                         show={wrongGuesses.length > 0}
@@ -232,9 +231,18 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
                     </Overlay>
                 </FormGroup>
 
-                <p className="tip">
-                    <i>Press Enter to submit</i>
-                </p>
+                {(wrongGuesses.length <= 0 && currentQuestionID <= 0) && (
+                    <p className="tip">
+                        <i>Press Enter to submit</i>
+                    </p>
+                )}
+
+                <Button
+                    onClick={this.onEvaluateResponse}
+                    bsStyle="xs"
+                >
+                    Submit
+                </Button>
             </div>
         );
     }
