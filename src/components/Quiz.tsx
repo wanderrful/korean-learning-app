@@ -164,6 +164,7 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
         );
     }
     renderQuiz() {
+        const {currentQuestionID} = this.state;
         return (
             <div className="Quiz">
                 <h3>
@@ -172,7 +173,7 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
 
                 <fieldset className="QueryContainer">
                     <legend className="question-number">
-                        {this.bHasAttemptedGuess &&
+                        {(currentQuestionID > 0) &&
                             <ProgressBar 
                                 active 
                                 bsStyle="success" 
