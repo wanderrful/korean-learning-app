@@ -42,6 +42,10 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
 
         return (currentQuestionID === challenges.length);
     }
+    get bHasAttemptedGuess(): boolean {
+        const {wrongGuesses} = this.state;
+        return (wrongGuesses.length > 0);
+    }
     get progressPercentage(): number {
         const {currentQuestionID} = this.state;
         const {challenges} = this.props;
@@ -160,8 +164,6 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
         );
     }
     renderQuiz() {
-        const {wrongGuesses} = this.state;
-
         return (
             <div className="Quiz">
                 <h3>
@@ -170,19 +172,21 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
 
                 <fieldset className="QueryContainer">
                     <legend className="question-number">
-                        <ProgressBar 
-                            active 
-                            bsStyle="success" 
-                            now={this.progressPercentage} 
-                            label={this.progressLabel} 
-                        />
+                        {this.bHasAttemptedGuess &&
+                            <ProgressBar 
+                                active 
+                                bsStyle="success" 
+                                now={this.progressPercentage} 
+                                label={this.progressLabel} 
+                            />
+                        }
                     </legend>
 
                     <p>
                         {this.renderQuery()}
                     </p>
                     
-                    {(wrongGuesses.length > 0) && (
+                    {this.bHasAttemptedGuess && (
                         <p>
                             {this.renderPreviousGuesses()}
                         </p>
@@ -193,7 +197,7 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
     }
     renderQuery() {
         const {challenges} = this.props;
-        const {childText, Response_className, currentQuestionID, wrongGuesses} = this.state;
+        const {childText, Response_className, currentQuestionID} = this.state;
         return(
             <div>
                 <p className="Query">
@@ -218,7 +222,7 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
                     
                     
                     <Overlay
-                        show={wrongGuesses.length > 0}
+                        show={this.bHasAttemptedGuess}
                         target={document.getElementById("guess-bar")}
                     >
                         <Popover
@@ -230,12 +234,6 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
                         </Popover>
                     </Overlay>
                 </FormGroup>
-
-                {(wrongGuesses.length <= 0 && currentQuestionID <= 0) && (
-                    <p className="tip">
-                        <i>Press Enter to submit</i>
-                    </p>
-                )}
 
                 <Button
                     onClick={this.onEvaluateResponse}
