@@ -1,6 +1,6 @@
 .QueryContainer {
   margin: 0 auto;
-  width: 15em;
+  width: 20em;
 
   display: flex;
   flex-direction: column;
@@ -18,15 +18,24 @@
   animation: Checkmark-Spin infinite 1s linear;
 }
 
+.question-number {
+  font-size: 1em;
+  font-weight: 300;
+}
+
 input {
   width: 100%; 
 }
 
 .Query {
   text-align: center;
-  font-size: 2em;
+  font-size: 4em;
   font-weight: 900;
   margin: 0;
+}
+
+.tip {
+  color: darkslategray;
 }
 
 .Response_normal {

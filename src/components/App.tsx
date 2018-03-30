@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
-import { Alert } from "react-bootstrap";
+import { Glyphicon } from "react-bootstrap";
 
 import Quiz from "./Quiz";
 
@@ -53,19 +53,20 @@ class App extends Component<object, AppState> {
   renderApp() {
     return (        
       <div>
-        <Alert bsStyle="danger">
-          <strong>Hey there!</strong> This app is still in development!
-        </Alert>
-
         <Quiz challenges={this.state.challenges}/>
       </div>
     );
   }
   renderLoading() {
     return (
-        <p>
-          Loading... ({this.state.challenges.length} words loaded)
-        </p>
+        <div>
+          <p>
+            <Glyphicon glyph="plus" className="loading-spinner" />
+          </p>
+          <p>
+            Loading... ({this.state.challenges.length} words loaded)
+          </p>
+        </div>
     );
   }
 
@@ -73,6 +74,14 @@ class App extends Component<object, AppState> {
     return (
       <div className="App">
         {(this.state.challenges.length > 0) ? this.renderApp() : this.renderLoading() }
+
+        <footer>
+          View the source on Github!
+          <ul>
+            <li><a href="https://github.com/wanderrful/korean-learning-app/">Front-end</a></li>
+            <li><a href="https://github.com/wanderrful/kla-backend">Back-end</a></li>
+            </ul>
+        </footer>
       </div>
     );
   }
