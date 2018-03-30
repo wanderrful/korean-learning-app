@@ -38,6 +38,12 @@ input {
   color: darkslategray;
 }
 
+.post-quiz-table {
+  align-content: center;
+  width: 35em;
+  margin: 0 auto;
+}
+
 .Response_normal {
   background-color: white;
 }

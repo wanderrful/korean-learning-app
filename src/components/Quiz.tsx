@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component, ChangeEvent, KeyboardEvent } from "react";
-import { Panel, FormControl, ListGroup, ListGroupItem, Glyphicon, Popover, Overlay, ProgressBar } from "react-bootstrap";
+import { Panel, Button, FormControl, ListGroup, ListGroupItem, Glyphicon, Popover, Overlay, ProgressBar, Table, FormGroup } from "react-bootstrap";
 
 import "../styles/Quiz.css";
 
@@ -52,16 +52,33 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
         const {challenges} = this.props;
         return (currentQuestionID > 0) ? `${currentQuestionID} of ${challenges.length}` : "";
     }
+    get validationState(): IValidationState {
+        const {Response_className} = this.state;
+        let result: IValidationState;
+        
+        switch (Response_className) {
+            case "Response_correct":
+                result = "success";
+                break;
+            case "Response_wrong":
+                result = "error";
+                break;
+            default:
+                result = null;
+                break;
+        }
+        
+        return result;
+    }
 
     // Event handler functions
-    onUpdateChildText(e: ChangeEvent<HTMLInputElement>): void {
+    onUpdateChildText(e: ChangeEvent<HTMLInputElement & EventTarget & FormControl>): void {
         this.setState({
-            ... this.state,
             childText: e.target.value,
             Response_className: "Response_normal",
         });
     }
-    onKeyDown(e: KeyboardEvent<FormControl & HTMLInputElement>): void {
+    onKeyDown(e: KeyboardEvent<HTMLInputElement & EventTarget & FormControl>): void {
         if (e.key === "Enter") {
             this.onEvaluateResponse();
         }
@@ -98,11 +115,17 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
                         wrongGuesses: temp,
                     });
                 }
+
+                // Reset the input field's class name after the animation finishes
+                setTimeout(() => { 
+                    this.setState({Response_className: "Response_normal"})
+                }, 1200);
             }
     }
 
     // Rendering helper functions
     renderPostQuiz() {
+        const {challenges} = this.props;
         return (
             <div className="Quiz">
                 <p className="CheckmarkAnimation">
@@ -111,6 +134,28 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
                 <p>
                     All questions have been answered correctly!
                 </p>
+                <div className="post-quiz-table">
+                    <Table striped bordered condensed hover>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Korean</th>
+                                <th>English</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {challenges.map( x => {
+                            return (
+                                <tr>
+                                    <td>{x.id}</td>
+                                    <td>{x.word_kr[0]}</td>
+                                    <td>{x.word_en[0]}</td>
+                                </tr>
+                            );
+                        })}
+                        </tbody>
+                    </Table>
+                </div>
             </div>
         );
     }
@@ -151,20 +196,27 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
                     {challenges[currentQuestionID].word_kr[0]}
                 </p>
 
-                <p>
-                    <input 
+                <FormGroup
+                    validationState={this.validationState}
+                >
+                    <FormControl 
                         type="text" 
                         id="guess-bar"
                         className={Response_className}
                         autoFocus={true}
                         value={childText}
+                        placeholder="Press Enter to submit"
                         onChange={this.onUpdateChildText}
                         onKeyDown={this.onKeyDown}
                     />
+                    <FormControl.Feedback />
 
-                    <p className="tip">
-                        <i>Press Enter to submit</i>
-                    </p>
+                    <Button
+                        onClick={this.onEvaluateResponse}
+                        bsStyle="xs"
+                    >
+                        Submit
+                    </Button>
                     
                     <Overlay
                         show={wrongGuesses.length > 0}
@@ -178,6 +230,10 @@ class Quiz extends Component<Quiz_P, Quiz_S> {
                             {challenges[currentQuestionID].hint}
                         </Popover>
                     </Overlay>
+                </FormGroup>
+
+                <p className="tip">
+                    <i>Press Enter to submit</i>
                 </p>
             </div>
         );

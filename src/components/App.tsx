@@ -82,6 +82,12 @@ class App extends Component<object, AppState> {
             <li><a href="https://github.com/wanderrful/kla-backend">Back-end</a></li>
             </ul>
         </footer>
+
+        <div className="github-banner">
+          <a href="https://github.com/wanderrful/korean-learning-app">
+            <img src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" />
+          </a>
+        </div>
       </div>
     );
   }
