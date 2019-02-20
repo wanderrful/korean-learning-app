@@ -10,8 +10,8 @@ import "bootstrap/dist/css/bootstrap-theme.css";
 import "./styles/index.css";
 
 
-
-// const testData: Array<Challenge> = [ // TODO: export this to a database and import here via props with Redux!
+// Uncomment this code block for local demonstration purposes
+// const testData: Array<Challenge> = [
 //   {
 //     query: "비밀",
 //     answer: "secret",
