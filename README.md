@@ -1,3 +1,5 @@
+![Screenshot](https://i.imgur.com/lGohxWW.png)
+
 ## Korean-Learning-App
 
 [Click here for a live version of this web app!](https://wanderrful.github.io/korean-learning-app/)
